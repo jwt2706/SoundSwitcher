@@ -19,7 +19,7 @@ class AudioSwitcherApplet extends Applet.TextIconApplet {
 
         this.set_applet_icon_name("audio-card");
         this.set_applet_label("Audio");
-        this.set_applet_tooltip("Switch audio output device");
+        this.set_applet_tooltip("Switch audio devices");
 
         this.menuManager = new PopupMenu.PopupMenuManager(this);
         this.menu = new Applet.AppletPopupMenu(this, orientation);
@@ -34,6 +34,7 @@ class AudioSwitcherApplet extends Applet.TextIconApplet {
     refreshMenu() {
         this.menu.removeAll();
 
+        const defaultSink = runCommand("pactl get-default-sink");
         const sinkList = runCommand("pactl list short sinks");
         const sinks = sinkList.split("\n");
 
@@ -41,9 +42,11 @@ class AudioSwitcherApplet extends Applet.TextIconApplet {
             if (!line) return;
             const parts = line.split("\t");
             const sinkName = parts[1];
-            const displayName = parts[1]; // You can prettify if needed
 
-            const item = new PopupMenu.PopupMenuItem(displayName);
+            const isSelected = sinkName === defaultSink;
+            const label = isSelected ? `${sinkName} ✓` : sinkName;
+
+            const item = new PopupMenu.PopupMenuItem(label);
             item.connect("activate", () => {
                 this.setDefaultSink(sinkName);
             });
@@ -53,7 +56,6 @@ class AudioSwitcherApplet extends Applet.TextIconApplet {
     }
 
     setDefaultSink(sinkName) {
-        // Set default sink
         runCommand(`pactl set-default-sink ${sinkName}`);
 
         // Move all current audio streams to new sink
