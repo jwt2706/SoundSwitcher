@@ -1,0 +1,9 @@
+{
+    "uuid": "soundswitcher@jwt2706",
+    "name": "SoundSwitcher",
+    "description": "Easily switch audio devices",
+    "icon": "audio-card",
+    "version": 1,
+    "max-instances": 1
+  }
+  
