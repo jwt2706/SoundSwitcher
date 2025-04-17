@@ -17,8 +17,7 @@ class AudioSwitcherApplet extends Applet.TextIconApplet {
     constructor(metadata, orientation, panelHeight, instanceId) {
         super(orientation, panelHeight, instanceId);
 
-        this.set_applet_icon_name("audio-card");
-        this.set_applet_label("Audio");
+        this.set_applet_label("Audio Output");
         this.set_applet_tooltip("Switch audio devices");
 
         this.menuManager = new PopupMenu.PopupMenuManager(this);
